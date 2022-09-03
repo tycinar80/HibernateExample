@@ -1,7 +1,9 @@
 package com.tyc.hibernateexample.entity;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -11,6 +13,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /*
@@ -39,12 +43,25 @@ public class User {
 	@ElementCollection
 	Map<EAddressType, Address> address;
 
+	@OneToOne()
+	private UserDetail userDetail;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+	private List<Post> post;
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", password=" + password + ", gender=" + gender + "]";
 	}
 
 	public User() {
+	}
+
+	public User(String username, String password, UserDetail userDetail) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.userDetail = userDetail;
 	}
 
 	public User(String username, String password, EGender gender, Name name, Map<EAddressType, Address> address) {
@@ -101,6 +118,38 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Name getName() {
+		return name;
+	}
+
+	public void setName(Name name) {
+		this.name = name;
+	}
+
+	public Map<EAddressType, Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Map<EAddressType, Address> address) {
+		this.address = address;
+	}
+
+	public List<Post> getPost() {
+		return post;
+	}
+
+	public void setPost(List<Post> post) {
+		this.post = post;
+	}
+
+	public UserDetail getUserDetail() {
+		return userDetail;
+	}
+
+	public void setUserDetail(UserDetail userDetail) {
+		this.userDetail = userDetail;
 	}
 
 }

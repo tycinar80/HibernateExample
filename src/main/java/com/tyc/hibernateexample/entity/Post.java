@@ -2,11 +2,13 @@ package com.tyc.hibernateexample.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +31,9 @@ public class Post {
 
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user;
 
 	@Override
 	public String toString() {
@@ -67,6 +72,14 @@ public class Post {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

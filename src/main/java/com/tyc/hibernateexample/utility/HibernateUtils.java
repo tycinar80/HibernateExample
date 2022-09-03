@@ -5,6 +5,7 @@ import org.hibernate.cfg.Configuration;
 
 import com.tyc.hibernateexample.entity.Post;
 import com.tyc.hibernateexample.entity.User;
+import com.tyc.hibernateexample.entity.UserDetail;
 
 public class HibernateUtils {
 	private static final SessionFactory SESSION_FACTORY = sessionFactoryHibernate();
@@ -15,6 +16,7 @@ public class HibernateUtils {
 			// Entity classlarýmýzý buraya ekliyoruz
 			configuration.addAnnotatedClass(User.class);
 			configuration.addAnnotatedClass(Post.class);
+			configuration.addAnnotatedClass(UserDetail.class);
 			SessionFactory factory = configuration.configure("hibernate.cfg.xml").buildSessionFactory();
 			return factory;
 		} catch (Exception e) {

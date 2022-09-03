@@ -178,8 +178,8 @@ public class MyFactoryRepository<T, ID> implements IMyCrud<T, ID> {
 		Field[] field = clss.getDeclaredFields(); // Bir nesne(sinif) icindeki degiskenleri alir
 		try {
 			// select * from tblxxx where ? = ? and ? = ? ...
-			CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(t.getClass());
-			Root<T> root = (Root<T>) criteriaQuery.from(t.getClass());
+			CriteriaQuery<T> criteriaQuery = (CriteriaQuery<T>) criteriaBuilder.createQuery(entity.getClass());
+			Root<T> root = (Root<T>) criteriaQuery.from(entity.getClass());
 			criteriaQuery.select(root);
 			List<Predicate> list = new ArrayList<Predicate>();
 			for (int i = 0; i < field.length; i++) {
@@ -187,12 +187,12 @@ public class MyFactoryRepository<T, ID> implements IMyCrud<T, ID> {
 				 * DIKKAT!! reflect ile alanlari okurken okumaya acmaliyiz
 				 */
 				field[i].setAccessible(true);
-				if (field[i].get(t) != null && field[i].getName().equals("id")) {
+				if (field[i].get(entity) != null && field[i].getName().equals("id")) {
 					if (field[i].getType().isAssignableFrom(String.class)) // Cektigimiz degiskenin datatype'nin String
 																			// olup olmadigini kontrol ediyoruz
-						list.add(criteriaBuilder.like(root.get(field[i].getName()), "%" + field[i].get(t) + "%"));
+						list.add(criteriaBuilder.like(root.get(field[i].getName()), "%" + field[i].get(entity) + "%"));
 					else
-						list.add(criteriaBuilder.equal(root.get(field[i].getName()), field[i].get(t)));
+						list.add(criteriaBuilder.equal(root.get(field[i].getName()), field[i].get(entity)));
 				}
 			}
 			criteriaQuery.where(list.toArray(new Predicate[] {})); // new Predicate(), new{323, 23, 56}
